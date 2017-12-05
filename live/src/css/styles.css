@@ -220,6 +220,16 @@ body {
 	margin: 0;
 }
 
+.search-bar {
+	display: inline-block;
+	width: 100%;
+}
+
+.search-bar-input {
+	width: 90%;
+	float: left;
+}
+
 .init-ES,
 footer {
 	position: absolute;

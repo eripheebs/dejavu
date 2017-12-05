@@ -3,6 +3,7 @@ import get from 'lodash/get';
 var React = require('react');
 var createReactClass = require('create-react-class');
 var DataTable = require('./table/DataTable.js');
+var SearchBar = require('./SearchBar.js');
 var FeatureComponent = require('./features/FeatureComponent.js');
 var Header = require('./Header.js');
 var Sidebar = require('./Sidebar.js');
@@ -908,6 +909,8 @@ var HomePage = createReactClass({
 							/>
 						</div>
 						<div className="col-xs-12 dataContainer">
+							<SearchBar
+								externalQuery={this.externalQuery} />
 							<DataTable
 								_data={this.state.documents}
 								sortInfo={this.state.sortInfo}
