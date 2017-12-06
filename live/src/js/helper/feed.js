@@ -392,7 +392,6 @@ var feed = (function() {
 				});
 		},
 		indexData: function(recordObject, method, callback) {
-			console.log(recordObject);
 			var self = this;
 			if (method === 'index' || method === 'bulk') {
 				applyIndexOrBulk(method);
@@ -401,7 +400,6 @@ var feed = (function() {
 				recordObject.body = {
 					doc: doc
 				};
-				console.log(recordObject);
 				appbaseRef.update(recordObject).on('data', function(res) {
 					if (method === 'updateCell' && callback) {
 						callback(res);

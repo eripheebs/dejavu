@@ -18,7 +18,7 @@ var help = {
 		if (data['_index'])
 			delete data['_index'];
 		if (data['_score'])
-			delete data['_score'];
+			data['Rank (_score)'] = data['_score'];
 
 		return {
 			data: data,

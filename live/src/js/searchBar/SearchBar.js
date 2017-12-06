@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, MenuItem } from 'react-bootstrap';
-var FieldCheckbox = require('./table/FieldCheckbox.js');
+var FieldCheckbox = require('../table/FieldCheckbox.js');
 
 class SearchBar extends React.Component {
 	constructor(props) {

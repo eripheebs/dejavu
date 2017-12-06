@@ -3,7 +3,7 @@ import get from 'lodash/get';
 var React = require('react');
 var createReactClass = require('create-react-class');
 var DataTable = require('./table/DataTable.js');
-var SearchBarContainer = require('./SearchBarContainer.js');
+var SearchBarContainer = require('./searchBar/SearchBarContainer.js');
 var FeatureComponent = require('./features/FeatureComponent.js');
 var Header = require('./Header.js');
 var Sidebar = require('./Sidebar.js');
