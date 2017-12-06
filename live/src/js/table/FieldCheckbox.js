@@ -18,6 +18,10 @@ class FieldCheckbox extends React.Component {
 	// which belong to that column should be visible/invisible
 	// we do this by assigning specific keys to them. check KeyGen.
 	check(elementId) {
+		if (this.props.updateSearchFields) {
+			this.props.updateSearchFields(this.props._type);
+			return;
+		}
 		var checked = true;
 		if (elementId == 'type / id') {
 			elementId = 'json';

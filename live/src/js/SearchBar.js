@@ -1,53 +1,46 @@
 import React from 'react';
+import { Dropdown, MenuItem } from 'react-bootstrap';
+var FieldCheckbox = require('./table/FieldCheckbox.js');
 
 class SearchBar extends React.Component {
 	constructor(props) {
         super(props);
-
-        this.state = {
-            query: {
-                query : {
-                    match_all: {}
-                }
-            }
-        }
     }
-
-    handleQueryInput = (queryInput) => {
-        var query = this.formatQuery(queryInput.target.value);
-        this.setState({ query: query });
-    };
-
-    makeQuery = () => {
-        this.props.externalQuery(this.state.query);
-    }
-
-    formatQuery = (queryInput) => {
-        var query = {
-            query: {
-                bool: {
-                    must: [
-                        {
-                            match: {
-                                Question: queryInput
-                            }
-                        }
-                    ]
-                }
-            }
-        };
-        return {query: query, type:["data"]};
-    };
 
     render() {
+		var MultiSearchCheckbox = this.props.fields.map((item, i) => {
+            var key = dropdownKeyGen(item)
+            return (
+                <FieldCheckbox
+                    updateSearchFields={this.props.updateSearchFields}
+                    key={i}
+                    _type={item["name"]}
+                    _key={key}
+                    checked={item["checked"]}
+                />
+            );
+        });
+
         return (
             <div className="search-bar">
                 <input className="search-bar-input form-control"
                     type="text"
                     name="query"
                     placeholder="Enter a question"
-                    onChange={this.handleQueryInput}/>
-                <button className="search-bar-btn btn-danger btn btn-default submit-btn" onClick={this.makeQuery}>Query</button>
+                    onChange={this.props.handleQueryInput}/>
+                <Dropdown
+                    className="dejavu-dropdown pull-right "
+                    pullRight={true}
+                    id='ab-dropdown'
+                >
+                <Dropdown.Toggle className="fa fa-cog" />
+                <Dropdown.Menu>
+                    <MenuItem header className='centered-text'>Query by field</MenuItem>
+                    <MenuItem divider/>
+                    {MultiSearchCheckbox}
+                </Dropdown.Menu>
+                </Dropdown>
+                <button className="search-bar-btn btn-danger btn btn-default submit-btn" onClick={this.props.makeQuery}>Query</button>
             </div>
         );
     }
