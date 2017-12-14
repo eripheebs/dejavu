@@ -25,8 +25,18 @@ class SearchBar extends React.Component {
             <div className="search-bar">
                 <input className="search-bar-input form-control"
                     type="text"
-                    name="query"
-                    placeholder="Enter a question"
+                    name="query1"
+                    placeholder="Search criteria"
+                    onChange={this.props.handleQueryInput}/>
+                <input className="search-bar-input form-control"
+                    type="text"
+                    name="query2"
+                    placeholder="Additional search criteria"
+                    onChange={this.props.handleQueryInput}/>
+                <input className="search-bar-input form-control"
+                    type="text"
+                    name="query3"
+                    placeholder="Additional search criteria"
                     onChange={this.props.handleQueryInput}/>
                 <Dropdown
                     className="dejavu-dropdown pull-right "
@@ -40,7 +50,7 @@ class SearchBar extends React.Component {
                     {MultiSearchCheckbox}
                 </Dropdown.Menu>
                 </Dropdown>
-                <button className="search-bar-btn btn-danger btn btn-default submit-btn" onClick={this.props.makeQuery}>Query</button>
+                <button className="search-bar-btn btn-danger btn btn-default submit-btn" onClick={this.props.makeQuery}>Search</button>
             </div>
         );
     }

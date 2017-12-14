@@ -51,7 +51,7 @@ var help = {
 	},
 	dynamicSort: function(property, reverse) {
 		return function(a, b) {
-			sortOrder = reverse ? -1 : 1;
+			sortOrder = reverse ? 1 : -1;
 			if (property == 'json')
 				property = '_type';
 			if (isNaN(a[property]) && !Array.isArray(a[property]))
@@ -195,7 +195,7 @@ var help = {
 		}
 		//by default sort it by typename by passing json field
 		else if (!sdata_key) {
-			sortedArray = help.sortIt(sdata_values, 'json', false);
+			sortedArray = help.sortIt(sdata_values, '_score', false);
 		} else {
 			sortedArray = sdata_values;
 		}

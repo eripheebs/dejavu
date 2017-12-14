@@ -67,7 +67,8 @@ var HomePage = createReactClass({
 			splash: true,
 			hideUrl: false,
 			cleanTypes: false,
-			dejavuExportData: null
+			dejavuExportData: null,
+			multiSearchResults: []
 		};
 	},
 	flatten: function(data, callback) {
@@ -660,6 +661,44 @@ var HomePage = createReactClass({
 			this.streamCallback(total, fromStream, method);
 		});
 	},
+	updateMultiSearchResults: function (data, query) {
+		data.forEach(function(result){
+			result["Search criteria"] = query["query"]["bool"]["must"][0]["multi_match"]["query"];
+		});
+		this.state.multiSearchResults.push(data);
+		var multiSearchResults = [].concat.apply([], this.state.multiSearchResults);
+		this.setState({ multiSearchResults: multiSearchResults });
+	},
+	multiExternalQuery: function(queryArray) {
+		this.setState(help.externalQueryPre(queryArray[0], this.removeTypes), this.removeFilter);
+		var externalQueryTotal = 0;
+		this.setState({ multiSearchResults: [] });
+
+		queryArray.forEach((query) => {
+			feed.externalQuery(query.query, query.type, (update, fromStream, total) => {
+				if (!fromStream) {
+					sdata = [];
+					externalQueryTotal += total;
+				}
+				setTimeout(() => {
+					if (update != null) {
+						this.updateMultiSearchResults(update, query.query);
+						if (query == queryArray[queryArray.length - 1]) {
+							sdata = [];
+							this.setState({
+								externalQueryTotal: externalQueryTotal
+							});
+							this.resetData(total);
+							this.updateDataOnView(this.state.multiSearchResults);
+							$('.full_page_loading').addClass('hide');
+						}
+					}
+				}, 500);
+			}, (total, fromStream, method) => {
+				this.streamCallback(total, fromStream, method);
+			});
+		});
+	},
 	removeExternalQuery: function(cb) {
 		if(this.state.externalQueryApplied) {
 			feed.removeExternalQuery();
@@ -910,7 +949,8 @@ var HomePage = createReactClass({
 						</div>
 						<div className="col-xs-12 dataContainer">
 							<SearchBarContainer
-								externalQuery={this.externalQuery} />
+								externalQuery={this.externalQuery}
+								multiExternalQuery={this.multiExternalQuery} />
 							<DataTable
 								_data={this.state.documents}
 								sortInfo={this.state.sortInfo}

@@ -261,7 +261,11 @@ var feed = (function() {
 			} catch (e) {
 				console.log(e, types);
 			}
-			const finalUrl = HOST + '/' + APPNAME + '/' + typesString + '/_search?preference=abcxyz&from=' + 0 + '&size=' + DATA_SIZE
+			var dataSize = DATA_SIZE
+			if (!!queryBody.size) {
+				dataSize = queryBody.size;
+			}
+			const finalUrl = HOST + '/' + APPNAME + '/' + typesString + '/_search?preference=abcxyz&from=' + 0 + '&size=' + dataSize
 				+ (sortString || '');
 			applyAppbaseSearch(finalUrl, queryBody, function(res) {
 				try {
