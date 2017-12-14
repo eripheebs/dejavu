@@ -9,7 +9,7 @@ class SearchBarContainer extends React.Component {
             query1: "",
             query2: "",
             query3: "",
-            fields: [{name: "Answer", checked: true}, {name: "Question", checked: true}, {name:"Opportunity", checked: true}, {name: "Comments", checked: true}]
+            fields: [{name: "Answer", checked: false}, {name: "Question", checked: true}, {name:"Opportunity", checked: false}, {name: "Comments", checked: false}]
         }
     }
 
