@@ -689,7 +689,9 @@ var HomePage = createReactClass({
 								externalQueryTotal: externalQueryTotal
 							});
 							this.resetData(total);
-							this.updateDataOnView(this.state.multiSearchResults);
+							setTimeout(() => {
+								this.updateDataOnView(this.state.multiSearchResults);
+							}, 500);
 							$('.full_page_loading').addClass('hide');
 						}
 					}
