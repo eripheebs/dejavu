@@ -6,32 +6,32 @@ class SearchBarContainer extends React.Component {
         super(props);
 
         this.state = {
-            query1: "",
-            query2: "",
-            query3: "",
+            queries: [],
             fields: [{name: "Answer", checked: false}, {name: "Question", checked: true}, {name:"Opportunity", checked: false}, {name: "Comments", checked: false}]
         }
     }
 
     handleQueryInput = (queryInput) => {
-        var query = queryInput.target.value;
-        var queryObj = {};
-        queryObj[queryInput.target.name] = query;
-        this.setState(queryObj);
-    };
+        var queries = queryInput.target.value;
+        var queryArray = this.parse(queries);
+        this.setState({queries: queryArray});
+    }
+
+    parse = (queries) => {
+        return queries.split(/[\n;]/);
+    }
 
     onlyOneQuery = () => {
-        return (this.state.query2 == "" && this.state.query3 == "");
+        return (this.state.queries.length == 1);
     }
 
     makeQuery = () => {
         if (this.onlyOneQuery()) {
-            var query = this.formatESQuery(this.state.query1);
+            var query = this.formatESQuery(this.state.queries[0]);
             this.props.externalQuery(query);
         } else {
-            var queries = [this.state.query1, this.state.query2, this.state.query3];
             var formattedQueries = []
-            queries.forEach((query) => {
+            this.state.queries.forEach((query) => {
                 if (query != "") {
                     formattedQueries.push(this.formatMultiESQuery(query))
                 }

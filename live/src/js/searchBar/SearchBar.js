@@ -23,21 +23,9 @@ class SearchBar extends React.Component {
 
         return (
             <div className="search-bar">
-                <input className="search-bar-input form-control"
-                    type="text"
-                    name="query1"
-                    placeholder="Search criteria"
-                    onChange={this.props.handleQueryInput}/>
-                <input className="search-bar-input form-control"
-                    type="text"
-                    name="query2"
-                    placeholder="Additional search criteria"
-                    onChange={this.props.handleQueryInput}/>
-                <input className="search-bar-input form-control"
-                    type="text"
-                    name="query3"
-                    placeholder="Additional search criteria"
-                    onChange={this.props.handleQueryInput}/>
+                <textarea className="search-bar-input form-control"
+                    name="query" onChange={this.props.handleQueryInput}
+                    placeholder="Search criteria" />
                 <Dropdown
                     className="dejavu-dropdown pull-right "
                     pullRight={true}
