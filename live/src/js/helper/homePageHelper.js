@@ -195,7 +195,11 @@ var help = {
 		}
 		//by default sort it by typename by passing json field
 		else if (!sdata_key) {
-			sortedArray = help.sortIt(sdata_values, '_score', false);
+			if (sdata_values.length > 0 && !!sdata_values[0]["Search criteria"]){
+				sortedArray = sdata_values;
+			} else {
+				sortedArray = help.sortIt(sdata_values, '_score', false);
+			}
 		} else {
 			sortedArray = sdata_values;
 		}
