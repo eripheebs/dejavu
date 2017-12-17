@@ -91,6 +91,28 @@ class DataTable extends React.Component {
 		});
 	}
 
+	sortColumns = (columns) => {
+		var move = function(arr, from, to) {
+			arr.splice(to, 0, arr.splice(from, 1)[0]);
+		};
+
+		if (columns.length == 10) {
+			move(columns, 5, 1);
+			move(columns, 5, 1);
+			move(columns, 8, 3);
+			move(columns, 9, 4);
+			move(columns, 8, 7);
+		} else {
+			move(columns, 4, 0);
+			move(columns, 4, 0);
+			move(columns, 7, 2);
+			move(columns, 8, 3);
+			move(columns, 7, 6);
+		}
+
+		return columns;
+	}
+
 	render() {
 		var $this = this;
 		var data = this.props._data;
@@ -113,6 +135,7 @@ class DataTable extends React.Component {
 			columns: columns,
 			final_cols: initial_final_cols
 		};
+
 		for (var each in data) {
 			fullColumns.type = data[each]['_type'];
 			for (var column in data[each]) {
@@ -159,8 +182,8 @@ class DataTable extends React.Component {
 			})
 		}
 
-		const sortedColumns = fullColumns.columns.slice(1).sort();
-		const sortedFinalColumns = fullColumns.final_cols.slice(1).sort((a, b) => {
+		var sortedColumns = fullColumns.columns.slice(1).sort();
+		var sortedFinalColumns = fullColumns.final_cols.slice(1).sort((a, b) => {
 			if (a.column < b.column) {
 				return -1;
 			} else if (a.column > b.column) {
@@ -168,6 +191,11 @@ class DataTable extends React.Component {
 			}
 			return 0;
 		});
+
+		if (fullColumns.columns.length >= 10) {
+			sortedColumns = this.sortColumns(fullColumns.columns.slice(1));
+			sortedFinalColumns = this.sortColumns(fullColumns.final_cols.slice(1));
+		}
 
 		fullColumns.columns = [...fullColumns.columns.slice(0, 1), ...sortedColumns];
 		fullColumns.final_cols = [...fullColumns.final_cols.slice(0, 1), ...sortedFinalColumns];
