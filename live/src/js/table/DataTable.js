@@ -92,24 +92,33 @@ class DataTable extends React.Component {
 	}
 
 	sortColumns = (columns) => {
-		var move = function(arr, from, to) {
-			arr.splice(to, 0, arr.splice(from, 1)[0]);
-		};
-
 		if (columns.length == 10) {
-			move(columns, 5, 1);
-			move(columns, 5, 1);
-			move(columns, 8, 3);
-			move(columns, 9, 4);
-			move(columns, 8, 7);
+			this.move(columns, 5, 1);
+			this.move(columns, 5, 1);
+			this.move(columns, 8, 3);
+			this.move(columns, 9, 4);
+			this.move(columns, 8, 7);
 		} else {
-			move(columns, 4, 0);
-			move(columns, 4, 0);
-			move(columns, 7, 2);
-			move(columns, 8, 3);
-			move(columns, 7, 6);
+			this.move(columns, 4, 0);
+			this.move(columns, 4, 0);
+			this.move(columns, 7, 2);
+			this.move(columns, 8, 3);
+			this.move(columns, 7, 6);
 		}
 
+		return columns;
+	}
+
+	move = (arr, from, to) => {
+		arr.splice(to, 0, arr.splice(from, 1)[0]);
+	};
+
+	moveJsonToEnd = (columns) => {
+		if (columns.length == 10) {
+			this.move(columns, 0, 9);
+		} else {
+			this.move(columns, 0, 10);
+		}
 		return columns;
 	}
 
@@ -220,7 +229,6 @@ class DataTable extends React.Component {
 		for (var row in data) {
 			var newRow = {};
 			var columns = fullColumns.columns;
-			newRow['json'] = data[row]['json'];
 			// newRow['_type'] = data[row]['_type'];
 			// newRow['_id'] = data[row]['_id'];
 			for (var each in columns) {
@@ -247,6 +255,7 @@ class DataTable extends React.Component {
 					}
 				}
 			}
+			newRow['json'] = data[row]['json'];
 			var renderRow = [];
 			for (var each in newRow) {
 				var _key = keyGen(data[row], each);
@@ -328,6 +337,9 @@ class DataTable extends React.Component {
 				'_key': String(data[row]['_id']) + String(data[row]['_type']),
 				'row': renderRow
 			});
+		}
+		if (fullColumns.final_cols.length >= 10) {
+			this.moveJsonToEnd(fullColumns.final_cols);
 		}
 		var renderColumns = fullColumns.final_cols.map(function(item) {
 			return (<Column _item={item.column} key={item.column}
