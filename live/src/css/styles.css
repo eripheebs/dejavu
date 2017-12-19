@@ -240,7 +240,7 @@ footer {
 	background: #f8fafb;
 	padding: 5px;
 	padding-right: 130px;
-	padding-left: 169px;
+	padding-left: 15px;
 }
 
 .init-ES {
@@ -894,6 +894,33 @@ footer {
 	padding-bottom: 10px;
 	border: 1px solid #eff0f0;
 	margin-top: 5px;
+	overflow: hidden;
+}
+
+#img-large {
+	display: inline-block;
+	max-width: 80px;
+}
+
+.closed {
+	width: 20px;
+	margin-right: 0;
+}
+
+.large-view {
+	padding-left: 50px;
+}
+
+.glyphicon-chevron-left {
+	float: right;
+}
+
+.glyphicon-chevron-left:hover {
+	color: blue;
+}
+
+.glyphicon-chevron-left:hover {
+	color: blue;
 }
 
 #dejavu-sidebar .tab-content {

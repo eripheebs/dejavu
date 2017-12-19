@@ -14,15 +14,13 @@ export const InitialForm = (props) => (
 			<div className="vertical1">
 				<div className="esContainer">
 					<div className="img-container">
-						<img src="assets/img/Dejavu_Icon.svg" />
+						<img src="assets/img/dd_logo.png" />
 					</div>
 					<div>
-					  <h1>Déjà vu</h1>
-					  <h4 className="dejavu-bottomline">The Missing Web UI for Elasticsearch</h4>
+					  <h1>Deloitte Digital - DOS</h1>
+					  <h4 className="dejavu-bottomline"></h4>
 					  {props.index_create_text}
 					</div>
-					<ShareLink btn={props.shareBtn}> </ShareLink>
-					{props.composeQuery}
 					<div className="splashIn">
 						<div className="form-group m-0 col-xs-4 pd-0 pr-5">
 							<AppSelect {...props.appSelect} />
@@ -63,12 +61,5 @@ export const InitialForm = (props) => (
 
 export const FooterCombine = (props) => (
 	<footer className="text-center">
-		<a href="http://appbaseio.github.io/dejavu">Watch Video</a>
-		<span className="text-right pull-right powered_by">
-			Create your <strong>Elasticsearch</strong> in cloud with&nbsp;<a href="http://appbase.io">appbase.io</a>
-		</span>
-		<span className="pull-left github-star">
-			{props.githubStar}
-		</span>
 	</footer>
 );

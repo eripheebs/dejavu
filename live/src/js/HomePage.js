@@ -68,7 +68,8 @@ var HomePage = createReactClass({
 			hideUrl: false,
 			cleanTypes: false,
 			dejavuExportData: null,
-			multiSearchResults: []
+			multiSearchResults: [],
+			open: true
 		};
 	},
 	flatten: function(data, callback) {
@@ -845,6 +846,9 @@ var HomePage = createReactClass({
 			connect: false
 		});
 	},
+	hideOrShowSidebar: function() {
+		this.setState({ open: !this.state.open });
+	},
 	valChange: function(event) {
 		this.setState({ url: event.target.value});
 	},
@@ -923,68 +927,71 @@ var HomePage = createReactClass({
 					<Header />
 					<div className="appFormContainer">
 						{dejavuForm}
-						<div className="typeContainer">
-							<Sidebar
-								typeProps={{
-									Types:this.state.types,
-									watchTypeHandler:this.watchStock,
-									unwatchTypeHandler:this.unwatchStock,
-									signalColor:this.state.signalColor,
-									signalActive:this.state.signalActive,
-									signalText:this.state.signalText,
-									typeInfo:this.state.typeInfo,
-									selectedTypes: subsetESTypes,
-									cleanTypes: this.state.cleanTypes,
-									connect: this.state.connect
-								}}
-								queryProps={{
-									'externalQuery':this.externalQuery,
-									'externalQueryApplied': this.state.externalQueryApplied,
-									'removeExternalQuery':this.removeExternalQuery,
-									'types': this.state.types
-								}}
-								importer={{
-									appname: this.state.appname,
-									url: this.state.url
-								}}
-							/>
-						</div>
-						<div className="col-xs-12 dataContainer">
-							<SearchBarContainer
-								externalQuery={this.externalQuery}
-								multiExternalQuery={this.multiExternalQuery} />
-							<DataTable
-								_data={this.state.documents}
-								sortInfo={this.state.sortInfo}
-								filterInfo={this.state.filterInfo}
-								infoObj={this.state.infoObj}
-								totalRecord={this.state.totalRecord}
-								scrollFunction={this.handleScroll}
-								selectedTypes={subsetESTypes}
-								handleSort={this.handleSort}
-								mappingObj={this.state.mappingObj}
-								removeFilter ={this.removeFilter}
-								addRecord = {this.addRecord}
-								getTypeDoc={this.getTypeDoc}
-								Types={this.state.types}
-								removeSort = {this.removeSort}
-								removeHidden = {this.removeHidden}
-								removeTypes = {this.removeTypes}
-								visibleColumns = {this.state.visibleColumns}
-								hiddenColumns = {this.state.hiddenColumns}
-								columnToggle ={this.columnToggle}
-								actionOnRecord = {this.state.actionOnRecord}
-								pageLoading={this.state.pageLoading}
-								loadingSpinner={this.state.loadingSpinner}
-								reloadData={this.reloadData}
-								exportJsonData= {this.exportJsonData}
-								externalQueryApplied={this.state.externalQueryApplied}
-								externalQueryTotal={this.state.externalQueryTotal}
-								removeExternalQuery={this.removeExternalQuery}
-								dejavuExportData={this.state.dejavuExportData}
-								reloadMapping={this.setMap}
-								isLoadingData={this.state.isLoadingData}
-							/>
+						<div className="typeDataContainer">
+							<div className={"typeContainer" + (this.state.open ? "" : " closed")}>
+								<Sidebar
+									typeProps={{
+										Types:this.state.types,
+										watchTypeHandler:this.watchStock,
+										unwatchTypeHandler:this.unwatchStock,
+										signalColor:this.state.signalColor,
+										signalActive:this.state.signalActive,
+										signalText:this.state.signalText,
+										typeInfo:this.state.typeInfo,
+										selectedTypes: subsetESTypes,
+										cleanTypes: this.state.cleanTypes,
+										connect: this.state.connect
+									}}
+									queryProps={{
+										'externalQuery':this.externalQuery,
+										'externalQueryApplied': this.state.externalQueryApplied,
+										'removeExternalQuery':this.removeExternalQuery,
+										'types': this.state.types,
+									}}
+									hideOrShowSidebar={this.hideOrShowSidebar}
+									importer={{
+										appname: this.state.appname,
+										url: this.state.url
+									}}
+								/>
+							</div>
+							<div className={"col-xs-12 dataContainer" + (this.state.open ? "" : " large-view")}>
+								<SearchBarContainer
+									externalQuery={this.externalQuery}
+									multiExternalQuery={this.multiExternalQuery} />
+								<DataTable
+									_data={this.state.documents}
+									sortInfo={this.state.sortInfo}
+									filterInfo={this.state.filterInfo}
+									infoObj={this.state.infoObj}
+									totalRecord={this.state.totalRecord}
+									scrollFunction={this.handleScroll}
+									selectedTypes={subsetESTypes}
+									handleSort={this.handleSort}
+									mappingObj={this.state.mappingObj}
+									removeFilter ={this.removeFilter}
+									addRecord = {this.addRecord}
+									getTypeDoc={this.getTypeDoc}
+									Types={this.state.types}
+									removeSort = {this.removeSort}
+									removeHidden = {this.removeHidden}
+									removeTypes = {this.removeTypes}
+									visibleColumns = {this.state.visibleColumns}
+									hiddenColumns = {this.state.hiddenColumns}
+									columnToggle ={this.columnToggle}
+									actionOnRecord = {this.state.actionOnRecord}
+									pageLoading={this.state.pageLoading}
+									loadingSpinner={this.state.loadingSpinner}
+									reloadData={this.reloadData}
+									exportJsonData= {this.exportJsonData}
+									externalQueryApplied={this.state.externalQueryApplied}
+									externalQueryTotal={this.state.externalQueryTotal}
+									removeExternalQuery={this.removeExternalQuery}
+									dejavuExportData={this.state.dejavuExportData}
+									reloadMapping={this.setMap}
+									isLoadingData={this.state.isLoadingData}
+								/>
+							</div>
 						</div>
 						{footer}
 						{
