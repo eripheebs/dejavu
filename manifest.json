@@ -2,7 +2,7 @@
     "name":"dejavu",
     "version":"0.7.3",
     "icons":{
-        "16":"assets/img/icon_16.png",
+        "16":"assets/img/favico.ico",
         "32":"assets/img/icon_32.png",
         "48":"assets/img/icon_48.png",
         "128":"assets/img/icon_128.png"

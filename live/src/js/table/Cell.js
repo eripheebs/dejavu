@@ -610,7 +610,7 @@ class Cell extends React.Component {
 				/> :
 				toDisplay.length > 37 ?
 				<OverlayTrigger
-				trigger="click" rootClose placement="left" overlay={
+				trigger="click" rootClose placement={(columnName == 'Question') ? "bottom" : "left"} overlay={
 					!this.props.editable && typeof data === 'string' ?
 					<Popover id="textPrettyView">
 					{toDisplay}

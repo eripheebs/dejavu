@@ -10,7 +10,7 @@ const ColumnMappingInfo = ({ datatype, json, children }) => (
 	<OverlayTrigger
 		trigger="click"
 		rootClose
-		placement="left"
+		placement="right"
 		overlay={
 			<Popover id={`${datatype} label`} className="nestedJson">
 				{
