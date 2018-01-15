@@ -7,3 +7,4 @@ dejavu-unpacked/
 *.log
 react-codemod/
 .vscode/
+.env

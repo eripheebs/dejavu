@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Importer from '../../live/src/js/features/Importer';
+import Importer from '../../live/src/js/frontend/features/Importer';
 
 function onClose() {
 	const isDejavuUrl = sessionStorage.getItem('dejavuUrl');
