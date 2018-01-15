@@ -45,13 +45,6 @@ export const InitialForm = (props) => (
 							<i className={props.pauseClass}></i>
 							{props.esText}
 						</a>
-						{
-							props.splash ? (
-								<a className="btn btn-default m-l10" href="../importer/index.html">
-									Import JSON or CSV files
-								</a>
-							) : null
-						}
 					</div>
 				</div>
 			</div>

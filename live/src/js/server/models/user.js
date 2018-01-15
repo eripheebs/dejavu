@@ -14,6 +14,10 @@ var UserSchema = new mongoose.Schema({
   admin: {
     type: Boolean,
     require: true
+  },
+  numberOfLogins: {
+    type: Number,
+    required: false
   }
 });
 

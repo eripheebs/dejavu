@@ -8,7 +8,7 @@ exports.signUp = function(req, res) {
     username: req.body.username,
     password: req.body.password,
     admin: req.body.admin,
-    lock: false
+    numberOfLogins: 1
   });
 
   user.save(function(err) {
@@ -24,6 +24,8 @@ exports.signUp = function(req, res) {
   });
 }
 
+require('dotenv').load();
+
 exports.logIn = function(req, res) {
   User.findOne({
     username: req.body.username
@@ -36,15 +38,12 @@ exports.logIn = function(req, res) {
     } else {
       user.verifyPassword(req.body.password, function(err, isMatch) {
         if (isMatch && !err) {
-          var loggedInUser = new LoggedInUser({
-            username: req.body.username,
-            createdAt: new Date
-          });
-          loggedInUser.save();
-          var token = jwt.sign(user, config.secret, {
+          user.numberOfLogins = user.numberOfLogins + 1;
+          user.save();
+          var token = jwt.sign(user.toJSON(), config.secret, {
             expiresIn: parseInt(process.env.EXPIRATION_SECONDS)
           });
-          successMessage(res, "JWT " + token);
+          res.send({ "token": token, "url": process.env.ADDRESS, "name": process.env.NAME });
         } else {
           errorMessage(res, "Authentication failed. Passwords did not match.");
         }
@@ -53,20 +52,38 @@ exports.logIn = function(req, res) {
   });
 }
 
-exports.logOut = function(req, res){
-  LoggedInUser.findOneAndRemove({
-    username: req.user.username
-  }, function(err, user) {
-    if (err) {
-      errorMessage(res, err);
-    }
-    if (!user) {
-      errorMessage(res, "You are not logged in.");
+exports.authenticate = function(req, res){
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    if (token) {
+  
+      jwt.verify(token, process.env.SESSION_SECRET, function(err, decoded) {      
+        if (err) {
+          return errorMessage(res, 'Failed to authenticate token.');    
+        } else {
+          res.send({ "message": 'Authenticated succesfully', "url": process.env.ADDRESS, "name": process.env.NAME });
+        }
+      });
+  
     } else {
-      successMessage(res, "You have logged out.");
+      return errorMessage(res, 'No token provided.');
+  
     }
-  });
 }
+
+// exports.logOut = function(req, res){
+//   LoggedInUser.findOneAndRemove({
+//     username: req.user.username
+//   }, function(err, user) {
+//     if (err) {
+//       errorMessage(res, err);
+//     }
+//     if (!user) {
+//       errorMessage(res, "You are not logged in.");
+//     } else {
+//       successMessage(res, "You have logged out.");
+//     }
+//   });
+// }
 
 exports.setUpDb = function(){
   var user = new User({

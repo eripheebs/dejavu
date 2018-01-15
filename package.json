@@ -87,7 +87,8 @@
     "react-datetime": "^2.9.0",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.2.2",
-    "react-select": "^1.0.0-rc.5"
+    "react-select": "^1.0.0-rc.5",
+    "whatwg-fetch": "^2.0.3"
   },
   "author": "",
   "license": "ISC",

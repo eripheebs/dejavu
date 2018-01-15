@@ -10,6 +10,7 @@ var Sidebar = require('./Sidebar.js');
 var QueryList = require('./QueryList/index.js');
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var SharedComponents = require('./helper/SharedComponents');
+var logIn = require('./apiService/authHelpers/logIn.js');
 
 var HomePage = createReactClass({
 	displayName: 'HomePage',
@@ -62,8 +63,10 @@ var HomePage = createReactClass({
 			errorShow: false,
 			errorMessage: '',
 			historicApps: [],
-			url: 'http://54.246.255.144:443',
-			appname: 'dos',
+			url: '',
+			password: '',
+			username: '',
+			appname: '',
 			splash: true,
 			hideUrl: false,
 			cleanTypes: false,
@@ -173,6 +176,19 @@ var HomePage = createReactClass({
 	},
 	onEmptySelection: function() {
 		this.setState(help.onEmptySelection(this.state.infoObj));
+	},
+	logIn: function() {
+		logIn.logIn(this.state.username, this.state.password, this.handleLogin, this.handleLoginFailure);
+	},
+	handleLoginFailure: function(message) {
+		alert(message);
+	},
+	handleLogin: function(data) {
+		localStorage.setItem('dejavuToken', data.token);
+		this.setState({
+			url: data.url
+		});
+		this.connectPlayPause();
 	},
 	getStreamingData: function(types) {
 		if(!queryParams.query) {
@@ -852,6 +868,12 @@ var HomePage = createReactClass({
 	valChange: function(event) {
 		this.setState({ url: event.target.value});
 	},
+	valChangePassword: function(event) {
+		this.setState({ password: event.target.value});
+	},
+	valChangeUsername: function(event) {
+		this.setState({ username: event.target.value});
+	},
 	hideUrlChange: function() {
 		this.setState(help.hideUrlChange(this.state.hideUrl));
 	},
@@ -895,6 +917,8 @@ var HomePage = createReactClass({
 					}}
 					url={url}
 					valChange={self.valChange}
+					valChangePassword={self.valChangePassword}
+					valChangeUsername={self.valChangeUsername}
 					opts={opts}
 					hideUrl={hideUrl}
 					hideEye={hideEye}
@@ -907,6 +931,7 @@ var HomePage = createReactClass({
 					esText={esText}
 					splash={self.state.splash}
 					composeQuery={composeQuery}
+					logIn={self.logIn}
 				/>
 			);
 			return form;
@@ -926,6 +951,7 @@ var HomePage = createReactClass({
 				<div className="appHeaderContainer">
 					<Header />
 					<div className="appFormContainer">
+						{logInForm}
 						{dejavuForm}
 						<div className="typeDataContainer">
 							<div className={"typeContainer" + (this.state.open ? "" : " closed")}>

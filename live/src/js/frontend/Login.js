@@ -1,60 +1,29 @@
 import React, { Component } from 'react';
-import { Navbar, Button } from 'react-bootstrap';
 
 class Login extends Component {
-  goTo(route) {
-    this.props.history.replace(`/${route}`)
-  }
-
-  login() {
-    this.props.auth.login();
-  }
-
-  logout() {
-    this.props.auth.logout();
-  }
 
   render() {
-    const { isAuthenticated } = this.props.auth;
-
     return (
       <div>
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">Blah blah</a>
-            </Navbar.Brand>
-            <Button
-              bsStyle="primary"
-              className="btn-margin"
-              onClick={this.goTo.bind(this, 'live/home')}
-            >
-              Home
-            </Button>
-            {
-              !isAuthenticated() && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.login.bind(this)}
-                  >
-                    Log In
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.logout.bind(this)}
-                  >
-                    Log Out
-                  </Button>
-                )
-            }
-          </Navbar.Header>
-        </Navbar>
+        <div className="splashIn">
+          <div className="form-group m-0 col-xs-4 pd-0 pr-5">
+            <div className="username-container">
+              <input type="text" className="form-control" name="username" placeholder="Username"
+                onChange={props.valChangeUsername} />
+            </div>
+          </div>
+          <div className="col-xs-8 m-0 pd-0 pr-5 form-group">
+            <div className="password-container">
+              <input type="password" className="form-control" name="password" placeholder="Password"
+                onChange={props.valChangePassword} />
+            </div>
+          </div>
+				</div>
+        <div className="submit-btn-container">
+          <a className={props.esBtn} onClick={props.logIn}>
+            Log In
+          </a>
+        </div>
       </div>
     );
   }

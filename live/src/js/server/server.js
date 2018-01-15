@@ -40,17 +40,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 passportConfig(passport);
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 var routes = router(passport);
 var authRoutes = authRouter(passport);
 
 app.use('/', routes);
 app.use('/auth', authRoutes);
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 const port = process.env.PORT;
 

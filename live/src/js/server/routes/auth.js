@@ -15,5 +15,9 @@ module.exports = function(passport){
     userHelpers.logOut(req, res);
   });
 
+  authRouter.post('/authenticate', function(req, res) {
+    userHelpers.authenticate(req, res);
+  });
+
   return authRouter
 }

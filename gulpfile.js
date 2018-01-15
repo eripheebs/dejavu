@@ -49,7 +49,7 @@ var files = {
 	folders: {
 		assets: 'live/assets/**/*',
 		dist: 'live/dist/**/*',
-		src: 'live/src/**/*',
+		src: 'live/src/frontend/**/*',
 		vendors: 'live/vendors/**/*',
 		buttons: 'live/buttons/**/*',
 		importer: 'live/importer/**/*'
