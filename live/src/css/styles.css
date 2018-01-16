@@ -1133,6 +1133,18 @@ iframe {
 	margin-left: 10%;
 }
 
+.logIn {
+	z-index: 999999999;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 20%;
+}
+
+.loginContainer {
+	text-align: right;
+}
+
 .select2-container--default .select2-selection--multiple {
 	border-color: #ccc;
 }

@@ -43,7 +43,15 @@ exports.logIn = function(req, res) {
           var token = jwt.sign(user.toJSON(), config.secret, {
             expiresIn: parseInt(process.env.EXPIRATION_SECONDS)
           });
-          res.send({ "token": token, "url": process.env.ADDRESS, "name": process.env.NAME });
+          res.send({ 
+            "token": token, 
+            user: {
+              username: req.body.username,
+              admin: user.admin
+            }, 
+            "url": process.env.ADDRESS, 
+            "name": process.env.NAME
+          });
         } else {
           errorMessage(res, "Authentication failed. Passwords did not match.");
         }
@@ -66,24 +74,14 @@ exports.authenticate = function(req, res){
   
     } else {
       return errorMessage(res, 'No token provided.');
-  
     }
 }
 
-// exports.logOut = function(req, res){
-//   LoggedInUser.findOneAndRemove({
-//     username: req.user.username
-//   }, function(err, user) {
-//     if (err) {
-//       errorMessage(res, err);
-//     }
-//     if (!user) {
-//       errorMessage(res, "You are not logged in.");
-//     } else {
-//       successMessage(res, "You have logged out.");
-//     }
-//   });
-// }
+exports.logOut = function(req, res){
+  console.log(req.jwt);
+  req.logout();
+  successMessage(res, "You have logged out.");
+}
 
 exports.setUpDb = function(){
   var user = new User({

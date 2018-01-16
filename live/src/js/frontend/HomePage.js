@@ -11,6 +11,8 @@ var QueryList = require('./QueryList/index.js');
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var SharedComponents = require('./helper/SharedComponents');
 var logIn = require('./apiService/authHelpers/logIn.js');
+var logOut = require('./apiService/authHelpers/logOut.js');
+var Login = require('./Login.js');
 
 var HomePage = createReactClass({
 	displayName: 'HomePage',
@@ -66,13 +68,19 @@ var HomePage = createReactClass({
 			url: '',
 			password: '',
 			username: '',
-			appname: '',
+			appname: 'dos',
 			splash: true,
 			hideUrl: false,
 			cleanTypes: false,
 			dejavuExportData: null,
 			multiSearchResults: [],
-			open: true
+			open: true,
+			isLoggedIn: false,
+			jwt: null,
+			user: {
+				username: null,
+				admin: false
+			}
 		};
 	},
 	flatten: function(data, callback) {
@@ -180,15 +188,35 @@ var HomePage = createReactClass({
 	logIn: function() {
 		logIn.logIn(this.state.username, this.state.password, this.handleLogin, this.handleLoginFailure);
 	},
+	logOut: function() {
+		localStorage.removeItem('dejavuToken');
+		this.setState({
+			isLoggedIn: false,
+			jwt: null,
+			user: null
+		});
+	},
 	handleLoginFailure: function(message) {
 		alert(message);
 	},
 	handleLogin: function(data) {
-		localStorage.setItem('dejavuToken', data.token);
+		var jwtToken = "JWT " + data.token
+		localStorage.setItem('dejavuToken', jwtToken);
+		console.log(data.user);
 		this.setState({
-			url: data.url
+			isLoggedIn: true,
+			jwt: jwtToken,
+			user: data.user,
+			username: '',
+			password: ''
 		});
-		this.connectPlayPause();
+	},
+	handleLogOut: function(data) {
+		localStorage.removeItem('dejavuToken');
+		this.setState({
+			isLoggedIn: false,
+			jwt: null
+		});
 	},
 	getStreamingData: function(types) {
 		if(!queryParams.query) {
@@ -917,8 +945,6 @@ var HomePage = createReactClass({
 					}}
 					url={url}
 					valChange={self.valChange}
-					valChangePassword={self.valChangePassword}
-					valChangeUsername={self.valChangeUsername}
 					opts={opts}
 					hideUrl={hideUrl}
 					hideEye={hideEye}
@@ -931,7 +957,6 @@ var HomePage = createReactClass({
 					esText={esText}
 					splash={self.state.splash}
 					composeQuery={composeQuery}
-					logIn={self.logIn}
 				/>
 			);
 			return form;
@@ -949,76 +974,100 @@ var HomePage = createReactClass({
 			<div id='modal' />
 			<div className={containerClass}>
 				<div className="appHeaderContainer">
+					{
+						this.state.isLoggedIn ?
+						<div className="logIn">
+							<a className="btn btn-default submit-btn" onClick={this.logOut}> Log Out </a>
+						</div> :
+						<Login
+							valChangePassword={this.valChangePassword}
+							valChangeUsername={this.valChangeUsername}
+							logIn={this.logIn}
+						/>
+					}
 					<Header />
 					<div className="appFormContainer">
-						{logInForm}
-						{dejavuForm}
-						<div className="typeDataContainer">
-							<div className={"typeContainer" + (this.state.open ? "" : " closed")}>
-								<Sidebar
-									typeProps={{
-										Types:this.state.types,
-										watchTypeHandler:this.watchStock,
-										unwatchTypeHandler:this.unwatchStock,
-										signalColor:this.state.signalColor,
-										signalActive:this.state.signalActive,
-										signalText:this.state.signalText,
-										typeInfo:this.state.typeInfo,
-										selectedTypes: subsetESTypes,
-										cleanTypes: this.state.cleanTypes,
-										connect: this.state.connect
-									}}
-									queryProps={{
-										'externalQuery':this.externalQuery,
-										'externalQueryApplied': this.state.externalQueryApplied,
-										'removeExternalQuery':this.removeExternalQuery,
-										'types': this.state.types,
-									}}
-									hideOrShowSidebar={this.hideOrShowSidebar}
-									importer={{
-										appname: this.state.appname,
-										url: this.state.url
-									}}
-								/>
+						{	this.state.isLoggedIn ? 
+							dejavuForm :
+							<div className="esContainer">
+								<div className="img-container">
+									<img src="assets/img/dd_logo.png" />
+								</div>
+								<div>
+									<h1>Deloitte Digital - DOS</h1>
+									<h4 className="dejavu-bottomline"></h4>
+								</div>
 							</div>
-							<div className={"col-xs-12 dataContainer" + (this.state.open ? "" : " large-view")}>
-								<SearchBarContainer
-									externalQuery={this.externalQuery}
-									multiExternalQuery={this.multiExternalQuery} />
-								<DataTable
-									_data={this.state.documents}
-									sortInfo={this.state.sortInfo}
-									filterInfo={this.state.filterInfo}
-									infoObj={this.state.infoObj}
-									totalRecord={this.state.totalRecord}
-									scrollFunction={this.handleScroll}
-									selectedTypes={subsetESTypes}
-									handleSort={this.handleSort}
-									mappingObj={this.state.mappingObj}
-									removeFilter ={this.removeFilter}
-									addRecord = {this.addRecord}
-									getTypeDoc={this.getTypeDoc}
-									Types={this.state.types}
-									removeSort = {this.removeSort}
-									removeHidden = {this.removeHidden}
-									removeTypes = {this.removeTypes}
-									visibleColumns = {this.state.visibleColumns}
-									hiddenColumns = {this.state.hiddenColumns}
-									columnToggle ={this.columnToggle}
-									actionOnRecord = {this.state.actionOnRecord}
-									pageLoading={this.state.pageLoading}
-									loadingSpinner={this.state.loadingSpinner}
-									reloadData={this.reloadData}
-									exportJsonData= {this.exportJsonData}
-									externalQueryApplied={this.state.externalQueryApplied}
-									externalQueryTotal={this.state.externalQueryTotal}
-									removeExternalQuery={this.removeExternalQuery}
-									dejavuExportData={this.state.dejavuExportData}
-									reloadMapping={this.setMap}
-									isLoadingData={this.state.isLoadingData}
-								/>
-							</div>
-						</div>
+						}
+						{	this.state.isLoggedIn ? 
+							<div className="typeDataContainer">
+								<div className={"typeContainer" + (this.state.open ? "" : " closed")}>
+									<Sidebar
+										typeProps={{
+											Types:this.state.types,
+											watchTypeHandler:this.watchStock,
+											unwatchTypeHandler:this.unwatchStock,
+											signalColor:this.state.signalColor,
+											signalActive:this.state.signalActive,
+											signalText:this.state.signalText,
+											typeInfo:this.state.typeInfo,
+											selectedTypes: subsetESTypes,
+											cleanTypes: this.state.cleanTypes,
+											connect: this.state.connect
+										}}
+										queryProps={{
+											'externalQuery':this.externalQuery,
+											'externalQueryApplied': this.state.externalQueryApplied,
+											'removeExternalQuery':this.removeExternalQuery,
+											'types': this.state.types,
+										}}
+										hideOrShowSidebar={this.hideOrShowSidebar}
+										importer={{
+											appname: this.state.appname,
+											url: this.state.url
+										}}
+									/>
+								</div>
+								<div className={"col-xs-12 dataContainer" + (this.state.open ? "" : " large-view")}>
+									<SearchBarContainer
+										externalQuery={this.externalQuery}
+										multiExternalQuery={this.multiExternalQuery} />
+									<DataTable
+										_data={this.state.documents}
+										sortInfo={this.state.sortInfo}
+										filterInfo={this.state.filterInfo}
+										infoObj={this.state.infoObj}
+										totalRecord={this.state.totalRecord}
+										scrollFunction={this.handleScroll}
+										selectedTypes={subsetESTypes}
+										handleSort={this.handleSort}
+										mappingObj={this.state.mappingObj}
+										removeFilter ={this.removeFilter}
+										addRecord = {this.addRecord}
+										getTypeDoc={this.getTypeDoc}
+										Types={this.state.types}
+										removeSort = {this.removeSort}
+										removeHidden = {this.removeHidden}
+										removeTypes = {this.removeTypes}
+										visibleColumns = {this.state.visibleColumns}
+										hiddenColumns = {this.state.hiddenColumns}
+										columnToggle ={this.columnToggle}
+										actionOnRecord = {this.state.actionOnRecord}
+										pageLoading={this.state.pageLoading}
+										loadingSpinner={this.state.loadingSpinner}
+										reloadData={this.reloadData}
+										exportJsonData= {this.exportJsonData}
+										externalQueryApplied={this.state.externalQueryApplied}
+										externalQueryTotal={this.state.externalQueryTotal}
+										removeExternalQuery={this.removeExternalQuery}
+										dejavuExportData={this.state.dejavuExportData}
+										reloadMapping={this.setMap}
+										isLoadingData={this.state.isLoadingData}
+									/>
+								</div>
+							</div> :
+							<div></div>
+						}
 						{footer}
 						{
 							this.state.errorMessage.length ?

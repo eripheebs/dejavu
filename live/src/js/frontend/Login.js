@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (
-      <div>
-        <div className="splashIn">
-          <div className="form-group m-0 col-xs-4 pd-0 pr-5">
+      <div className="logIn">
+        <div className="spashIn">
+          <div className="form-group m-0 col-xs-6 pd-0 pr-5">
             <div className="username-container">
               <input type="text" className="form-control" name="username" placeholder="Username"
-                onChange={props.valChangeUsername} />
+                onChange={this.props.valChangeUsername} />
             </div>
           </div>
-          <div className="col-xs-8 m-0 pd-0 pr-5 form-group">
+          <div className="col-xs-6 m-0 pd-0 pr-5 form-group">
             <div className="password-container">
               <input type="password" className="form-control" name="password" placeholder="Password"
-                onChange={props.valChangePassword} />
+                onChange={this.props.valChangePassword} />
             </div>
           </div>
 				</div>
-        <div className="submit-btn-container">
-          <a className={props.esBtn} onClick={props.logIn}>
+        <div className="submit-btn-container loginContainer">
+          <a className="btn btn-default submit-btn" onClick={this.props.logIn}>
             Log In
           </a>
         </div>
@@ -29,4 +32,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+module.exports = Login;

@@ -6,7 +6,7 @@ class AppSelect extends React.Component {
 	state = {
 		selectVal: null,
 		apps: null,
-		searchValue: '',
+		searchValue: 'dos',
 		setAppClass: 'hide',
 		touched: false
 	};
