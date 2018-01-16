@@ -47,7 +47,8 @@ exports.logIn = function(req, res) {
             "token": token, 
             user: {
               username: req.body.username,
-              admin: user.admin
+              admin: user.admin,
+              superUser: user.superUser
             }, 
             "url": process.env.ADDRESS, 
             "name": process.env.NAME
@@ -87,14 +88,28 @@ exports.setUpDb = function(){
   var user = new User({
     username: "dejavu",
     password: "deloitte123",
-    admin: false
+    admin: false,
+    superUser: false
   });
   user.save();
 
   var admin = new User({
     username: "admin",
     password: "admin123",
-    admin: true
+    admin: true,
+    superUser: true
   });
   admin.save();
+
+  var superUser = new User({
+    username: "superUser",
+    password: "admin123",
+    admin: false,
+    superUser: true
+  });
+  superUser.save();
+}
+
+exports.getUsers = function() {
+  
 }

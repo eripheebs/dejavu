@@ -402,6 +402,7 @@ class DataTable extends React.Component {
 					hasImages={this.state.hasImages}
 					loadImages={this.state.loadImages}
 					toggleLoadImages={this.toggleLoadImages}
+					canEdit={this.props.superUser}
 				/>
 
 				<div className="outsideTable">

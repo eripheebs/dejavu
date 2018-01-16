@@ -15,6 +15,10 @@ var UserSchema = new mongoose.Schema({
     type: Boolean,
     require: true
   },
+  superUser: {
+    type: Boolean,
+    require: true
+  },
   numberOfLogins: {
     type: Number,
     required: false

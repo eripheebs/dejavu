@@ -146,34 +146,36 @@ class Info extends React.Component {
 						</span>
 					</div>
 				</div>
-				<DropdownButton
-					bsStyle={this.state.editable ? 'warning' : 'success'}
-					title={
-						this.state.editable ?
-							<span>
-								<span className="button-icon">
-									{
-										this.state.loading ?
-											<i className="fa fa-spinner fa-spin fa-3x fa-fw editable-loading" /> :
-											<i className="fa fa-unlock-alt" />
-									}
+				{
+					this.props.canEdit ?
+					<DropdownButton
+						bsStyle={this.state.editable ? 'warning' : 'success'}
+						title={
+							this.state.editable ?
+								<span>
+									<span className="button-icon">
+										{
+											this.state.loading ?
+												<i className="fa fa-spinner fa-spin fa-3x fa-fw editable-loading" /> :
+												<i className="fa fa-unlock-alt" />
+										}
+									</span>
+									<span className="pad-right">Editing</span>
+								</span> :
+								<span>
+									<span className="button-icon">
+										{
+											this.state.loading ?
+												<i className="fa fa-spinner fa-spin fa-3x fa-fw editable-loading" /> :
+												<i className="fa fa-eye" />
+										}
+									</span>
+									<span className="pad-right">Viewing</span>
 								</span>
-								<span className="pad-right">Editing</span>
-							</span> :
-							<span>
-								<span className="button-icon">
-									{
-										this.state.loading ?
-											<i className="fa fa-spinner fa-spin fa-3x fa-fw editable-loading" /> :
-											<i className="fa fa-eye" />
-									}
-								</span>
-								<span className="pad-right">Viewing</span>
-							</span>
-					}
-					id="toggle-button-edit-view"
-					onSelect={this.handleEditView}
-				>
+						}
+						id="toggle-button-edit-view"
+						onSelect={this.handleEditView}
+					>
 					<MenuItem eventKey="1" active={!this.state.editable}>
 						<div className="flex">
 							<div className="flex flex-align-center">
@@ -197,6 +199,8 @@ class Info extends React.Component {
 						</div>
 					</MenuItem>
 				</DropdownButton>
+					: <div></div>
+				}
 				{
 					this.props.hasImages &&
 					<button

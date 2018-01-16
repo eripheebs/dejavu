@@ -15,8 +15,12 @@ module.exports = function(passport){
     userHelpers.logOut(req, res);
   });
 
-  app.get('/users/me', passport.authenticate('jwt', { session: false }), function(req, res) {
+  authRouter.get('/users/me', passport.authenticate('jwt', { session: false }), function(req, res) {
     res.json({ id: req.user.id, username: req.user.username });
+  });
+
+  authRouter.get('/users', passport.authenticate('jwt', { session: false}), function(req, res) {
+    userHelpers.getUsers(req, res);
   });
 
   authRouter.post('/authenticate', function(req, res) {

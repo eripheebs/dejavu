@@ -65,7 +65,7 @@ var HomePage = createReactClass({
 			errorShow: false,
 			errorMessage: '',
 			historicApps: [],
-			url: '',
+			url: 'http://54.246.255.144:443',
 			password: '',
 			username: '',
 			appname: 'dos',
@@ -79,7 +79,8 @@ var HomePage = createReactClass({
 			jwt: null,
 			user: {
 				username: null,
-				admin: false
+				admin: false,
+				superUser: false
 			}
 		};
 	},
@@ -1063,6 +1064,7 @@ var HomePage = createReactClass({
 										dejavuExportData={this.state.dejavuExportData}
 										reloadMapping={this.setMap}
 										isLoadingData={this.state.isLoadingData}
+										superUser={this.state.user.superUser}
 									/>
 								</div>
 							</div> :
