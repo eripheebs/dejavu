@@ -1148,10 +1148,12 @@ iframe {
 .admin-panel {
 	z-index: 9999999999;
 	position: absolute;
-	top: 0;
+	top: 20;
 	left: 30;
 	width: 80%;
 	background-color: grey;
+	height: 450px;
+	overflow: auto;
 }
 
 .select2-container--default .select2-selection--multiple {

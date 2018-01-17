@@ -24,7 +24,6 @@ class AdminPanel extends Component {
     this.setState({
         users: data.users,
         open: !this.state.open });
-    console.log(this.state.users);
   }
 
   handleError = (errorMessage) => {
