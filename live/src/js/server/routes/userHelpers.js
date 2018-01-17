@@ -89,7 +89,8 @@ exports.setUpDb = function(){
     username: "dejavu",
     password: "deloitte123",
     admin: false,
-    superUser: false
+    superUser: false,
+    numberOfLogins: 0
   });
   user.save();
 
@@ -97,7 +98,8 @@ exports.setUpDb = function(){
     username: "admin1",
     password: "admin123",
     admin: true,
-    superUser: true
+    superUser: true,
+    numberOfLogins: 0
   });
   admin.save();
 
@@ -105,11 +107,18 @@ exports.setUpDb = function(){
     username: "superUser",
     password: "admin123",
     admin: false,
-    superUser: true
+    superUser: true,
+    numberOfLogins: 0
   });
   superUser.save();
 }
 
-exports.getUsers = function() {
-
+exports.getUsers = function(req, res) {
+  User.find({}, function(err, users) {
+    if (!err){ 
+      res.send({ "users": users });
+    } else {
+      return errorMessage(res, err)
+    }
+});
 }

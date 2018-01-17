@@ -198,11 +198,14 @@ var HomePage = createReactClass({
 			user: null
 		});
 	},
+	// logOut: function() {
+	// 	logOut.logOut(this.handleLogout, this.handleLoginFailure, this.state.jwt);
+	// },
 	handleLoginFailure: function(message) {
 		alert(message);
 	},
 	handleLogin: function(data) {
-		var jwtToken = "JWT " + data.token
+		var jwtToken = "bearer " + data.token
 		localStorage.setItem('dejavuToken', jwtToken);
 		console.log(data.user);
 		this.setState({
@@ -217,7 +220,8 @@ var HomePage = createReactClass({
 		localStorage.removeItem('dejavuToken');
 		this.setState({
 			isLoggedIn: false,
-			jwt: null
+			jwt: null,
+			user: null
 		});
 	},
 	getStreamingData: function(types) {
@@ -982,6 +986,8 @@ var HomePage = createReactClass({
 							<a className="btn btn-default submit-btn" onClick={this.logOut}> Log Out </a>
 							<AdminPanel
 								showPanel={this.state.user.admin}
+								jwt={this.state.jwt}
+								username={this.state.username}
 							/>
 						</div> :
 						<Login

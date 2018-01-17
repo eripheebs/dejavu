@@ -19,7 +19,7 @@ module.exports = function(passport){
     res.json({ id: req.user.id, username: req.user.username });
   });
 
-  authRouter.get('/users', passport.authenticate('jwt', { session: false}), function(req, res) {
+  authRouter.post('/users', passport.authenticate('jwt', { session: false }), function(req, res) {
     userHelpers.getUsers(req, res);
   });
 

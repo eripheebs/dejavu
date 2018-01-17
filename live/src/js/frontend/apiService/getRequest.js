@@ -34,7 +34,7 @@ export function getRequest(url, successCallback, errorCallback, jwt){
     if (!response.ok) {
       throw Error(json.error);
     }
-    return json.success;
+    return json;
   })
   .then(successCallback)
   .catch(function(error){
