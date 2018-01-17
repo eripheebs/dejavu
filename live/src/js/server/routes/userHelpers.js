@@ -94,7 +94,7 @@ exports.setUpDb = function(){
   user.save();
 
   var admin = new User({
-    username: "admin",
+    username: "admin1",
     password: "admin123",
     admin: true,
     superUser: true
@@ -111,5 +111,5 @@ exports.setUpDb = function(){
 }
 
 exports.getUsers = function() {
-  
+
 }

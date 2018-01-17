@@ -13,6 +13,7 @@ var SharedComponents = require('./helper/SharedComponents');
 var logIn = require('./apiService/authHelpers/logIn.js');
 var logOut = require('./apiService/authHelpers/logOut.js');
 var Login = require('./Login.js');
+var AdminPanel = require('./AdminPanel.js');
 
 var HomePage = createReactClass({
 	displayName: 'HomePage',
@@ -979,6 +980,9 @@ var HomePage = createReactClass({
 						this.state.isLoggedIn ?
 						<div className="logIn">
 							<a className="btn btn-default submit-btn" onClick={this.logOut}> Log Out </a>
+							<AdminPanel
+								showPanel={this.state.user.admin}
+							/>
 						</div> :
 						<Login
 							valChangePassword={this.valChangePassword}

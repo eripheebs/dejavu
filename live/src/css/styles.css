@@ -1145,6 +1145,15 @@ iframe {
 	text-align: right;
 }
 
+.admin-panel {
+	z-index: 9999999999;
+	position: absolute;
+	top: 0;
+	left: 30;
+	width: 80%;
+	background-color: grey;
+}
+
 .select2-container--default .select2-selection--multiple {
 	border-color: #ccc;
 }
