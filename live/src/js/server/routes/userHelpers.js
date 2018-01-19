@@ -1,6 +1,7 @@
 import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import config from '../config/database.js';
+import moment from 'moment';
 import { successMessage, errorMessage } from './successErrorResponseHelpers.js';
 
 exports.signUp = function(req, res) {
@@ -8,11 +9,15 @@ exports.signUp = function(req, res) {
     username: req.body.username,
     password: req.body.password,
     admin: req.body.admin,
-    numberOfLogins: 1
+    superUser: req.body.superUser,
+    numberOfLogins: 1,
+    lastLogin: moment().format('MMM D, YYYY, H:ss'),
+    blocked: false
   });
 
   user.save(function(err) {
     if (err) {
+      console.log(err.message);
       if (err.code == 11000) {
         errorMessage(res, "Incorrect password.");
       } else {
@@ -35,10 +40,13 @@ exports.logIn = function(req, res) {
     }
     if (!user) {
       errorMessage(res, "Authentication failed. User not found.");
+    } else if (user.blocked) {
+      errorMessage(res, "Your account has been temporarily suspended. Please speak to the admin for further details.")
     } else {
       user.verifyPassword(req.body.password, function(err, isMatch) {
         if (isMatch && !err) {
           user.numberOfLogins = user.numberOfLogins + 1;
+          user.lastLogin = moment().format('MMM D, YYYY, H:ss');
           user.save();
           var token = jwt.sign(user.toJSON(), config.secret, {
             expiresIn: parseInt(process.env.EXPIRATION_SECONDS)
@@ -57,6 +65,25 @@ exports.logIn = function(req, res) {
           errorMessage(res, "Authentication failed. Passwords did not match.");
         }
       });
+    }
+  });
+}
+
+exports.toggleBlock = function(req, res) {
+  User.findOne({
+    username: req.body.username
+  }, function(err, user) {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      errorMessage(res, "Authentication failed. User not found.");
+    } else if (user.blocked) {
+      user.blocked = false;
+      user.save();
+    } else {
+      user.blocked = true;
+      user.save();
     }
   });
 }

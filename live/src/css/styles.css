@@ -1146,14 +1146,80 @@ iframe {
 }
 
 .admin-panel {
-	z-index: 9999999999;
-	position: absolute;
-	top: 20;
-	left: 30;
-	width: 80%;
-	background-color: grey;
-	height: 450px;
-	overflow: auto;
+    z-index: 9999999999;
+    position: absolute;
+    padding: 15px;
+    background-color: whitesmoke;
+    top: 20;
+    left: 30;
+    border: 1px gray solid;
+    box-shadow: 3px 3px #888;
+    max-height: 450px;
+    overflow: auto;
+}
+ 
+.user {
+    margin-bottom: 8px;
+    width: 200px;
+}
+
+.blocked {
+	background: darkgray;
+	color: white;
+}
+ 
+.user-admin {
+    color: lightgray;
+    margin-left: 3px;
+    font-size: 9pt;
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: inline-block;
+    width: 35px;
+}
+ 
+.user-admin.active {
+  color: red;
+}
+ 
+.user-super.active {
+  color: green;
+}
+ 
+.user-super {
+    color: lightgray;
+    margin-left: 3px;
+    font-size: 9pt;
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: inline-block;
+    width: 35px;
+}
+ 
+.user-logins {
+    color: black;
+    margin-left: 3px;
+    background-color: yellow;
+    border-radius: 3px;
+    font-size: 9pt;
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: inline-block;
+}
+ 
+.username {
+    font-size: 11pt;
+    width: 100px;
+    display: inline-block;
 }
 
 .select2-container--default .select2-selection--multiple {

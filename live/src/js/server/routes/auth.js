@@ -4,11 +4,16 @@ var authRouter = Express.Router();
 import userHelpers from './userHelpers.js';
 
 module.exports = function(passport){
-  authRouter.route('/signUp')
-    .post(userHelpers.signUp)
+  authRouter.post('/signUp', passport.authenticate('jwt', { session: false }), function(req, res) {
+    userHelpers.signUp(req, res)
+  });
 
   authRouter.post('/logIn', function(req, res) {
     userHelpers.logIn(req, res);
+  });
+
+  authRouter.post('/toggleBlock', passport.authenticate('jwt', { session: false }), function(req, res) {
+    userHelpers.toggleBlock(req, res);
   });
 
   authRouter.get('/logOut', passport.authenticate('jwt', { session: false }), function(req, res) {

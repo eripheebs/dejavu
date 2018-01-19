@@ -74,7 +74,7 @@
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "loglevel": "^1.4.1",
-    "moment": "^2.18.1",
+    "moment": "^2.20.1",
     "mongoose": "^4.13.9",
     "papaparse": "^4.3.3",
     "passport": "^0.4.0",

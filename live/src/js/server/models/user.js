@@ -22,6 +22,14 @@ var UserSchema = new mongoose.Schema({
   numberOfLogins: {
     type: Number,
     required: false
+  },
+  lastLogin: {
+    type: String,
+    require: false
+  },
+  blocked: {
+    type: Boolean,
+    require: true
   }
 });
 

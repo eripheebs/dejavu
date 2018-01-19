@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getUsers } from './apiService/getUsers.js';
 import User from './User.js';
+import { signUp } from './apiService/authHelpers/register.js';
+import { toggleBlock } from './apiService/authHelpers/toggleBlock.js';
 
 class AdminPanel extends Component {
   constructor(props) {
@@ -8,7 +10,12 @@ class AdminPanel extends Component {
 
     this.state = {
         open: false,
-        users: []
+        users: [],
+        creatingNewUser: false,
+        username: '',
+        password: '',
+        admin: false,
+        superUser: false
     }
   }
 
@@ -26,8 +33,48 @@ class AdminPanel extends Component {
         open: !this.state.open });
   }
 
+  showCreateNewUser = () => {
+    this.setState({
+        creatingNewUser: !this.state.creatingNewUser });
+  }
+
   handleError = (errorMessage) => {
-      console.log(errorMessage);
+      alert(errorMessage);
+  }
+  
+  valChangePassword = (event) => {
+      this.setState({ password: event.target.value} );
+  }
+
+  valChangeUsername = (event) => {
+      this.setState({ username: event.target.value });
+  }
+
+  createNewUser = () => {
+      if (this.state.username != '', this.state.password != '') {
+        signUp(this.state.username, this.state.password, this.state.admin, this.state.superUser, this.handleRegister, this.handleError, this.props.jwt);
+      }
+      else {
+          alert('Username and password cannot be left blank');
+      }
+  }
+
+  handleRegister = () => {
+    this.setState({ open: !this.state.open,
+    creatingNewUser: false });
+    this.getUsers();
+  }
+
+  toggleSuperUser = () => {
+      this.setState({ superUser: !this.state.superUser });
+  }
+
+  toggleAdmin = () => {
+      this.setState({ admin: !this.state.admin });
+  }
+
+  toggleBlock = () => {
+      toggleBlock(this.handleRegister, this.handleError, this.props.jwt);
   }
 
   mapUsers = () => {
@@ -35,11 +82,16 @@ class AdminPanel extends Component {
         var superUser = user.superUser ? user.superUser : false;
         var numberOfLogins = user.numberOfLogins ? user.numberOfLogins : false;
         var admin = user.admin ? user.admin : false;
+        var lastLogin = user.lastLogin ? user.lastLogin : false;
+        var blocked = user.blocked ? user.blocked : false;
         return <User username={user.username}
                 key={user.username}
                 admin={admin}
                 superUser={superUser}
                 numberOfLogins={numberOfLogins}
+                lastLogin={lastLogin}
+                blocked={blocked}
+                toggleBlock={this.toggleBlock}
             />
     });
   }
@@ -62,7 +114,31 @@ class AdminPanel extends Component {
             {
                 this.state.open ?
                 <div className="admin-panel">
-                     {users}
+                    <a className="btn btn-default submit-btn" onClick={this.showCreateNewUser}>
+                        { this.state.creatingNewUser ?
+                        "Close new user creation" :
+                        "Create new user"
+                        }
+                    </a>
+                    { this.state.creatingNewUser ?
+                        <div className="create-new-user">
+                            <input type="text" className="form-control" name="username" placeholder="username"
+                                            onChange={this.valChangeUsername} />
+                            <input type="password" className="form-control" name="password" placeholder="password"
+                                            onChange={this.valChangePassword} />
+                            <a className={this.state.admin ? "btn btn-success submit-btn" : "btn btn-warning submit-btn"} onClick={this.toggleAdmin}>
+                                Admin
+                            </a>
+                            <a className={this.state.superUser ? "btn btn-success submit-btn" : "btn btn-warning submit-btn"} onClick={this.toggleSuperUser}>
+                                Super User
+                            </a>
+                            <a className="btn btn-default submit-btn" onClick={this.createNewUser}>
+                                Create new user
+                            </a>
+                        </div>
+                        : <div></div>
+                    }
+                    {users}
                 </div>
                 : <div></div>
             }
