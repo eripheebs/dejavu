@@ -244,6 +244,7 @@ footer {
 }
 
 .init-ES {
+	display: none;
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
@@ -1129,6 +1130,7 @@ iframe {
 }
 
 .EsBigForm .splashIn {
+	display: none;
 	width: 80%;
 	margin-left: 10%;
 }
