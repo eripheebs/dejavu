@@ -29,6 +29,57 @@ exports.signUp = function(req, res) {
   });
 }
 
+exports.changePassword = function(req, res) {
+  User.findOne({
+    username: req.body.username
+  }, function(err, user) {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      errorMessage(res, "Authentication failed. User not found.");
+    } else {
+      user.password = req.body.password;
+      user.save();
+      successMessage(res, "Password succesfully changed");
+    }
+  });
+}
+
+exports.changeSuperUser = function(req, res) {
+  User.findOne({
+    username: req.body.username
+  }, function(err, user) {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      errorMessage(res, "Authentication failed. User not found.");
+    } else {
+      user.superUser = !user.superUser;
+      user.save();
+      successMessage(res, "Super user rights changed.");
+    }
+  });
+}
+
+exports.changeAdmin = function(req, res) {
+  User.findOne({
+    username: req.body.username
+  }, function(err, user) {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      errorMessage(res, "Authentication failed. User not found.");
+    } else {
+      user.admin = !user.admin;
+      user.save();
+      successMessage(res, "Admin rights changed.");
+    }
+  });
+}
+
 require('dotenv').load();
 
 exports.logIn = function(req, res) {

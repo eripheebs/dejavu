@@ -3,6 +3,9 @@ import { getUsers } from './apiService/getUsers.js';
 import User from './User.js';
 import { signUp } from './apiService/authHelpers/register.js';
 import { toggleBlock } from './apiService/authHelpers/toggleBlock.js';
+import { changePassword } from './apiService/authHelpers/changePassword.js';
+import { changeAdmin } from './apiService/authHelpers/changeAdmin.js';
+import { changeSuperUser } from './apiService/authHelpers/changeSuperUser.js';
 
 class AdminPanel extends Component {
   constructor(props) {
@@ -21,6 +24,7 @@ class AdminPanel extends Component {
 
   showPanel = () => {
       this.getUsers();
+      this.setState({ open: !this.state.open })
   }
 
   getUsers = () => {
@@ -29,8 +33,7 @@ class AdminPanel extends Component {
 
   handleSuccess = (data) => {
     this.setState({
-        users: data.users,
-        open: !this.state.open });
+        users: data.users });
   }
 
   showCreateNewUser = () => {
@@ -60,8 +63,7 @@ class AdminPanel extends Component {
   }
 
   handleRegister = () => {
-    this.setState({ open: !this.state.open,
-    creatingNewUser: false });
+    this.setState({ creatingNewUser: false });
     this.getUsers();
   }
 
@@ -75,6 +77,18 @@ class AdminPanel extends Component {
 
   toggleBlock = (username) => {
       toggleBlock(username, this.handleRegister, this.handleError, this.props.jwt);
+  }
+
+  changePassword = (password, username) => {
+    changePassword(password, username, this.handleRegister, this.handleError, this.props.jwt)
+  }
+
+  changeAdmin = (username) => {
+      changeAdmin(username, this.handleRegister, this.handleError, this.props.jwt);
+  }
+
+  changeSuperUser = (username) => {
+      changeSuperUser(username, this.handleRegister, this.handleError, this.props.jwt);
   }
 
   mapUsers = () => {
@@ -92,6 +106,9 @@ class AdminPanel extends Component {
                 lastLogin={lastLogin}
                 blocked={blocked}
                 toggleBlock={this.toggleBlock}
+                changePassword={this.changePassword}
+                changeAdmin={this.changeAdmin}
+                changeSuperUser={this.changeSuperUser}
             />
     });
   }

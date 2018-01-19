@@ -15,6 +15,18 @@ module.exports = function(passport){
   authRouter.post('/toggleBlock', passport.authenticate('jwt', { session: false }), function(req, res) {
     userHelpers.toggleBlock(req, res);
   });
+  
+  authRouter.post('/changePassword', passport.authenticate('jwt', { session: false }), function(req, res) {
+    userHelpers.changePassword(req, res);
+  });
+
+  authRouter.post('/changeAdmin', passport.authenticate('jwt', { session: false }), function(req, res) {
+    userHelpers.changeAdmin(req, res);
+  });
+
+  authRouter.post('/changeSuperUser', passport.authenticate('jwt', { session: false }), function(req, res) {
+    userHelpers.changeSuperUser(req, res);
+  });
 
   authRouter.get('/logOut', passport.authenticate('jwt', { session: false }), function(req, res) {
     userHelpers.logOut(req, res);
