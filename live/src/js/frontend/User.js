@@ -6,7 +6,7 @@ class User extends Component {
   }
 
   toggleBlock = () => {
-      this.props.toggleBlock()
+      this.props.toggleBlock(this.props.username);
   }
 
   render() {

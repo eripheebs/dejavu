@@ -73,8 +73,8 @@ class AdminPanel extends Component {
       this.setState({ admin: !this.state.admin });
   }
 
-  toggleBlock = () => {
-      toggleBlock(this.handleRegister, this.handleError, this.props.jwt);
+  toggleBlock = (username) => {
+      toggleBlock(username, this.handleRegister, this.handleError, this.props.jwt);
   }
 
   mapUsers = () => {

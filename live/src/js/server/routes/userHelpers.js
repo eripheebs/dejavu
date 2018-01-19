@@ -78,12 +78,10 @@ exports.toggleBlock = function(req, res) {
     }
     if (!user) {
       errorMessage(res, "Authentication failed. User not found.");
-    } else if (user.blocked) {
-      user.blocked = false;
-      user.save();
     } else {
-      user.blocked = true;
+      user.blocked = !user.blocked
       user.save();
+      successMessage(res, "User blocked.")
     }
   });
 }
