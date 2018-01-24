@@ -14,6 +14,7 @@ var logIn = require('./apiService/authHelpers/logIn.js');
 var logOut = require('./apiService/authHelpers/logOut.js');
 var Login = require('./Login.js');
 var AdminPanel = require('./AdminPanel.js');
+var CheckAnswerPanel = require('./CheckAnswerPanel.js');
 
 var HomePage = createReactClass({
 	displayName: 'HomePage',
@@ -982,13 +983,17 @@ var HomePage = createReactClass({
 				<div className="appHeaderContainer">
 					{
 						this.state.isLoggedIn ?
-						<div className="logIn">
-							<a className="btn btn-default submit-btn" onClick={this.logOut}> Log Out </a>
-							<AdminPanel
-								showPanel={this.state.user.admin}
-								jwt={this.state.jwt}
-								username={this.state.username}
+						<div>
+							<CheckAnswerPanel
 							/>
+							<div className="logIn">
+								<a className="btn btn-default submit-btn" onClick={this.logOut}> Log Out </a>
+								<AdminPanel
+									showPanel={this.state.user.admin}
+									jwt={this.state.jwt}
+									username={this.state.username}
+								/>
+							</div>
 						</div> :
 						<Login
 							valChangePassword={this.valChangePassword}

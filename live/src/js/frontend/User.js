@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Toggle from 'react-bootstrap-toggle';
 
 class User extends Component {
   constructor(props) {
@@ -35,36 +37,39 @@ class User extends Component {
   }
 
   render() {
-    return (
-      <div className={ this.props.blocked ? "user blocked" : "user"}>
+    return <div className={this.props.blocked ? 'user blocked' : 'user'}>
         <div className="username">{this.props.username} </div>
-        <div className={'user-admin ' + (this.props.admin ? 'active' : '')} onClick={this.changeAdmin}>admin</div>
-        <div className={'user-super ' + (this.props.superUser ? 'active' : '')} onClick={this.changeSuperUser}>super</div>
+        <Toggle
+            onClick={this.changeAdmin}
+            on="admin"
+            off="admin"
+            size="xs"
+            active={this.props.admin}
+            onstyle='danger'
+            offstyle='default' />
+        <Toggle
+            onClick={this.changeSuperUser}
+            on="super"
+            off="super"
+            size="xs"
+            active={this.props.superUser}
+            onstyle='success'
+            offstyle='default' />
         <div className="user-logins">{this.props.numberOfLogins ? this.props.numberOfLogins : ''}</div>
         <div className="last-login">{this.props.lastLogin ? this.props.lastLogin : ''}</div>
-        <a className="btn btn-default submit-btn" onClick={this.toggleBlock}>
-            { this.props.blocked ?
-            "Unblock" :
-            "Block"
-            }
+        <a className="btn btn-default submit-btn user-button" onClick={this.toggleBlock}>
+            {this.props.blocked ? 'Unblock' : 'Block'}
         </a>
-        <a className="btn btn-default submit-btn" onClick={this.togglePasswordChange}>
-            { this.state.changePassword ?
-                "Close password change" :
-                "Change Password"
-            }
+        <a className="btn btn-default submit-btn user-button" onClick={this.togglePasswordChange}>
+            {this.state.changePassword ? 'Close password change' : 'Change Password'}
         </a>
-        { this.state.changePassword ?
-            <div className="create-new-user">
-                <input type="password" className="form-control" name="password" placeholder="password"
-                                            onChange={this.valChangePassword} />
+        {this.state.changePassword ? <div className="create-new-user">
+                <input type="password" className="form-control" name="password" placeholder="password" onChange={this.valChangePassword} />
                 <a className="btn btn-default submit-btn" onClick={this.changePassword}>
                     Change Password
                 </a>
-            </div> : <div></div>
-        }
-      </div>
-    );
+            </div> : <div />}
+    </div>;
   }
 }
 

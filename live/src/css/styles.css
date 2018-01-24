@@ -1152,76 +1152,92 @@ iframe {
     position: absolute;
     padding: 15px;
     background-color: whitesmoke;
-    top: 20;
-    left: 30;
     border: 1px gray solid;
     box-shadow: 3px 3px #888;
+    margin-left: -500px;
+    width: 635px;
     max-height: 450px;
     overflow: auto;
 }
  
-.user {
-    margin-bottom: 8px;
-    width: 200px;
+.table {
+   background-color: white;
 }
-
+ 
+.user {
+    margin-bottom: 15px;
+    width: 600px;
+    display: block;
+    line-height: 25px;
+}
+ 
 .blocked {
-	background: darkgray;
-	color: white;
+    background: darkgray;
+    color: white;
 }
  
 .user-admin {
     color: lightgray;
-    margin-left: 3px;
-    font-size: 9pt;
+    margin-left: 10px;
+    font-size: 10pt;
     font-weight: bold;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: inline-block;
-    width: 35px;
-}
- 
-.user-admin.active {
-  color: red;
-}
- 
-.user-super.active {
-  color: green;
-}
- 
-.user-super {
-    color: lightgray;
-    margin-left: 3px;
-    font-size: 9pt;
-    font-weight: bold;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    display: inline-block;
-    width: 35px;
+    text-align: center;
 }
  
 .user-logins {
     color: black;
-    margin-left: 3px;
+    margin-left: 10px;
     background-color: yellow;
-    border-radius: 3px;
-    font-size: 9pt;
+    border-radius: 5px;
+    font-size: 10pt;
     font-weight: bold;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: inline-block;
+    width: 25px;
+    text-align: center;
 }
  
 .username {
     font-size: 11pt;
     width: 100px;
     display: inline-block;
+}
+ 
+.last-login {
+   display: inline-block;
+    width: 115px;
+    font-size: 10pt;
+}
+ 
+.user-button {
+    display: inline-block;
+    font-size: 10pt;
+    background: whitesmoke;
+}
+ 
+.toggle {
+    margin-right: 10px !important;
+    border: 1px solid lightgray !important;
+    padding: 1px;
+}
+ 
+.toggle-handle {
+    border-left: 1px solid gray !important;
+    border-right: 1px solid gray !important;
+    top: -2px !important;
+}
+ 
+.toggle-on {
+ 
+}
+ 
+.toggle-off {
+    background-color: lightgray !important;
+    color: gray !important;
 }
 
 .select2-container--default .select2-selection--multiple {
