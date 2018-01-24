@@ -76,7 +76,11 @@ class AdminPanel extends Component {
   }
 
   toggleBlock = (username) => {
+    if (username == 'admin1') {
+        alert('You cannot block the main administrator.');
+    } else {
       toggleBlock(username, this.handleRegister, this.handleError, this.props.jwt);
+    }
   }
 
   changePassword = (password, username) => {
@@ -84,7 +88,11 @@ class AdminPanel extends Component {
   }
 
   changeAdmin = (username) => {
-      changeAdmin(username, this.handleRegister, this.handleError, this.props.jwt);
+    if (username == 'admin1') {
+        alert('You cannot change the administrator rights of the main administrator.');
+    } else {
+        changeAdmin(username, this.handleRegister, this.handleError, this.props.jwt);
+    }
   }
 
   changeSuperUser = (username) => {

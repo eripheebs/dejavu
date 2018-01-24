@@ -6,7 +6,7 @@ class CheckAnswerPanel extends Component {
 
     this.state = {
         open: false,
-        answer: '',
+        answer: null,
         keywords: [],
         wordCount: null,
         percentageMatch: null,
@@ -45,7 +45,7 @@ class CheckAnswerPanel extends Component {
   getPercentageMarch = () => {
     var matchedArray = [];
     this.state.keywords.forEach((keyword) => {
-      if (answer.includes(keyword)) {
+      if (this.state.answer.includes(keyword)) {
         matchedArray.push(keyword);
       }
     });
@@ -59,21 +59,23 @@ class CheckAnswerPanel extends Component {
   render() {
     return (
         <div className="check-answer">
-            <a className="btn btn-default submit-btn" onClick={this.showPanel}>Quick Check Answer</a>
+            <a className="btn btn-default submit-btn" onClick={this.showPanel}>
+                { this.state.open ? "Close Quick Check" : "Quick Check Answer" }
+            </a>
             {
                 this.state.open ?
                 <div className="check-answer-panel">
                     <textarea className="form-control" name="answer" placeholder="Insert answer here"
                                             onChange={this.valChangeAnswer} />
-                    <textarea className="form-control" name="keywords" placeholder="Insert keywords here, newline or ; in between words"
+                    <textarea className="form-control" name="keywords" placeholder="Insert keywords here, newline OR semicolon in between words"
                                             onChange={this.handleKeywordInput} />
                     <a className="btn btn-default submit-btn" onClick={this.checkAnswer}>
                         Check Answer
                     </a>
-                    { this.state.displayAnswer ?
+                    { this.state.displayAnswer && !!this.state.answer ?
                         <div className="answer-analysis">
-                            Percentage match keywords: { this.state.percentageMatch ? this.state.percentageMatch : null }
-                            Word count: { this.state.wordCount ? this.state.wordCount : null }
+                            <p>Percentage match keywords: { this.state.percentageMatch ? this.state.percentageMatch : null }</p>
+                            <p>Word count: { this.state.wordCount ? this.state.wordCount : null }</p>
                         </div> :
                         <div></div>
                     }
