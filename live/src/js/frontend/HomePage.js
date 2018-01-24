@@ -83,7 +83,8 @@ var HomePage = createReactClass({
 				username: null,
 				admin: false,
 				superUser: false
-			}
+			},
+			multiSearch: false
 		};
 	},
 	flatten: function(data, callback) {
@@ -208,7 +209,6 @@ var HomePage = createReactClass({
 	handleLogin: function(data) {
 		var jwtToken = "bearer " + data.token
 		localStorage.setItem('dejavuToken', jwtToken);
-		console.log(data.user);
 		this.setState({
 			isLoggedIn: true,
 			jwt: jwtToken,
@@ -706,6 +706,9 @@ var HomePage = createReactClass({
 			setTimeout(() => {
 				if (update != null) {
 					this.updateDataOnView(update);
+					this.setState({
+						multiSearch: false
+					});
 				}
 				$('.full_page_loading').addClass('hide');
 			}, 500);
@@ -719,7 +722,8 @@ var HomePage = createReactClass({
 		});
 		this.state.multiSearchResults.push(data);
 		var multiSearchResults = [].concat.apply([], this.state.multiSearchResults);
-		this.setState({ multiSearchResults: multiSearchResults });
+		this.setState({ multiSearchResults: multiSearchResults,
+			multiSearch: true });
 	},
 	multiExternalQuery: function(queryArray) {
 		this.setState(help.externalQueryPre(queryArray[0], this.removeTypes), this.removeFilter);
@@ -874,6 +878,9 @@ var HomePage = createReactClass({
 	scrollApi: function(info) {
 		feed.scrollapi(help.getSelectedTypes(this.state.filterInfo, this.state.externalQueryApplied), info.activeQuery, info.scroll, info.scroll_id)
 			.done(function(data) {
+				if (this.state.multiSearch) {
+					data = { hits: { hits: this.state.multiSearchResults } };
+				}
 				const dejavuExportData =  help.scrollapi.call(this, data, this.scrollApi);
 				if(dejavuExportData) {
 					this.setState({
